@@ -1,0 +1,7 @@
+Pasos después de clonar el proyecto:
+
+- Hacer CTRL + SHIFT + P y escribir python: create environment.
+- Seleccionar VENV y después python 3.XX (alguna versión de python3)
+- Abrir la consola con CTRL + Ñ.
+- Y escribir lo siguente: .venv\Scripts\activate
+- Después ejecutar lo siguiente: pip install -r requirements.txt
