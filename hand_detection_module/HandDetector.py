@@ -1,7 +1,7 @@
 import cv2
 import mediapipe as mp
 
-class HandManager:
+class HandDetector:
     def __init__(self, is_image, num_hands, detection_confidence, tracking_confidence) -> None:
         self.mp_drawing = mp.solutions.drawing_utils
         self.mp_hands = mp.solutions.hands
