@@ -44,7 +44,7 @@ class KeyFrameExtractor:
             yield frame
         video.release()
 
-    def extractKeyFrames(self, video, threshold=4.4, min_frame_interval=3):
+    def extractKeyFrames(self, video, min_frame_interval=3):
         puntos_previos = []
         handedness_prev = []
         key_frames = []
@@ -52,7 +52,15 @@ class KeyFrameExtractor:
 
         for frame in self.extractFrames(video):
             frame_count += 1
-            if len(key_frames)==0 or frame_count - key_frames[-1][1] > min_frame_interval:
+            if len(key_frames)==0:
+                if results.multi_hand_landmarks:
+                    handedness_prev = results.multi_handedness if results.multi_handedness else []
+                    puntos_previos=results.multi_hand_landmarks
+                    threshold = self.adjust_threshold(puntos_previos)
+                    key_frames.append((frame, frame_count))
+                    print("Threshold:", threshold)
+
+            elif frame_count - key_frames[-1][1] > min_frame_interval:
                 results = self.hand_detector.detectHands(frame)
                 if results.multi_hand_landmarks:
                     puntos_actuales = results.multi_hand_landmarks
@@ -66,3 +74,14 @@ class KeyFrameExtractor:
                 else:
                     puntos_previos = None
         return [frame for frame, _ in key_frames]
+    
+    def adjust_threshold(self, puntos_actuales, base_threshold=40.0):
+        for hand_landmarks in puntos_actuales:
+            x_coords = [landmark.x for landmark in hand_landmarks.landmark]
+            y_coords = [landmark.y for landmark in hand_landmarks.landmark]
+        hand_width = max(x_coords) - min(x_coords)
+        hand_height = max(y_coords) - min(y_coords)
+        hands_size= hand_width * hand_height
+        threshold=base_threshold*hands_size
+        print (threshold)
+        return threshold
