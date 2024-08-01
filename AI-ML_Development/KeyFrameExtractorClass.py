@@ -1,4 +1,4 @@
-from  import HandDetector
+from HandDetectorClass import HandDetector
 
 class KeyFrameExtractor:
     def __init__(self) -> None:
@@ -7,8 +7,6 @@ class KeyFrameExtractor:
     def calcularDiferencia(self, puntos_previos, puntos_actuales, handedness_prev, handedness_actual):
         if puntos_previos is None or puntos_actuales is None:
             return 10.0
-
-        # Comprobamos si alguna de las listas está vacía o si las dos listas tienen diferentes longitudes
         if len(puntos_previos) != len(puntos_actuales):
             return 10.0
 
@@ -52,17 +50,20 @@ class KeyFrameExtractor:
 
         for frame in self.extractFrames(video):
             frame_count += 1
-            results = self.hand_detector.detectHands(frame)
 
             if len(key_frames)==0:
+                results = self.hand_detector.extractPoints(frame)
+                frame = self.hand_detector.drawLandmarks(results, frame)
                 if results.multi_hand_landmarks:
                     handedness_prev = results.multi_handedness if results.multi_handedness else []
                     puntos_previos=results.multi_hand_landmarks
                     threshold = self.adjust_threshold(puntos_previos)
+                    print(threshold)
                     key_frames.append((frame, frame_count))
-                    print("Threshold:", threshold)
 
             elif frame_count - key_frames[-1][1] > min_frame_interval:
+                results = self.hand_detector.extractPoints(frame)
+                frame = self.hand_detector.drawLandmarks(results, frame)
                 if results.multi_hand_landmarks:
                     puntos_actuales = results.multi_hand_landmarks
                     handedness_actual = results.multi_handedness if results.multi_handedness else []
@@ -84,5 +85,4 @@ class KeyFrameExtractor:
         hand_height = max(y_coords) - min(y_coords)
         hands_size= hand_width * hand_height
         threshold=base_threshold*hands_size
-        print (threshold)
         return threshold

@@ -11,7 +11,7 @@ class HandDetector:
         self.tracking_confidence = tracking_confidence
 
     def extractPoints(self, frame):
-        frame = cv2.flip(frame, 1)
+        #frame = cv2.flip(frame, 1)
         with self.mp_hands.Hands(
             static_image_mode=self.is_image,
             max_num_hands=self.num_hands,
