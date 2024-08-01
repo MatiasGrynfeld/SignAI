@@ -1,4 +1,4 @@
-from ..hand_detection_module.HandDetectorClass import HandDetector
+from  import HandDetector
 
 class KeyFrameExtractor:
     def __init__(self) -> None:
@@ -52,6 +52,8 @@ class KeyFrameExtractor:
 
         for frame in self.extractFrames(video):
             frame_count += 1
+            results = self.hand_detector.detectHands(frame)
+
             if len(key_frames)==0:
                 if results.multi_hand_landmarks:
                     handedness_prev = results.multi_handedness if results.multi_handedness else []
@@ -61,7 +63,6 @@ class KeyFrameExtractor:
                     print("Threshold:", threshold)
 
             elif frame_count - key_frames[-1][1] > min_frame_interval:
-                results = self.hand_detector.detectHands(frame)
                 if results.multi_hand_landmarks:
                     puntos_actuales = results.multi_hand_landmarks
                     handedness_actual = results.multi_handedness if results.multi_handedness else []
