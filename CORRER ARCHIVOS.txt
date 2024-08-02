@@ -1,0 +1,13 @@
+Como correr archivos de prueba:
+
+- Abrir la consola con CTRL + Ñ.
+- Y escribir lo siguente: .venv\Scripts\activate
+- Después hacer: cd AI-ML_Development/Tests
+- Por último hacer: python nombreArchivo.py
+
+Nota:
+
+Todos los archivos de Test deben tener lo siguiente:
+
+from forAllTest import init
+init()
