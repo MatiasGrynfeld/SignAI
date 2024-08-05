@@ -1,7 +1,5 @@
 from HandDetectorClass import HandDetector
-from colorama import Fore, init
 
-init()
 class KeyFrameExtractor:
     def __init__(self) -> None:
         self.hand_detector = HandDetector(is_image=True, num_hands=2, detection_confidence=0.5, tracking_confidence=0.5)
@@ -44,7 +42,7 @@ class KeyFrameExtractor:
             yield frame
         video.release()
 
-    def extractKeyFrames(self, video, min_frame_interval=3):
+    def extractKeyFrames(self, return_frames, video, min_frame_interval=3, base_threshold=40.0):
         puntos_previos = []
         handedness_prev = []
         key_frames = []
@@ -55,32 +53,36 @@ class KeyFrameExtractor:
 
             if len(key_frames)==0:
                 results = self.hand_detector.extractPoints(frame)
-                frame = self.hand_detector.drawLandmarks(results, frame)
                 if results.multi_hand_landmarks:
                     handedness_prev = results.multi_handedness if results.multi_handedness else []
                     puntos_previos=results.multi_hand_landmarks
-                    threshold = self.adjust_threshold(puntos_previos)
-                    print(Fore.GREEN + f"Threshold: {threshold}")
-                    print(Fore.RESET)
-                    key_frames.append((frame, frame_count))
+                    threshold = self.adjust_threshold(puntos_previos, base_threshold)
+                    if return_frames:
+                        frame = self.hand_detector.drawLandmarks(results, frame)
+                        key_frames.append((frame, frame_count))
+                    else:
+                        key_frames.append((results, frame_count))
 
             elif frame_count - key_frames[-1][1] > min_frame_interval:
                 results = self.hand_detector.extractPoints(frame)
-                frame = self.hand_detector.drawLandmarks(results, frame)
                 if results.multi_hand_landmarks:
                     puntos_actuales = results.multi_hand_landmarks
                     handedness_actual = results.multi_handedness if results.multi_handedness else []
                     diff = self.calcularDiferencia(puntos_previos, puntos_actuales, handedness_prev, handedness_actual)
 
                     if diff > threshold:
-                        key_frames.append((frame, frame_count))
+                        if return_frames:
+                            frame = self.hand_detector.drawLandmarks(results, frame)
+                            key_frames.append((frame, frame_count))
+                        else:
+                            key_frames.append((results, frame_count))
                         puntos_previos = puntos_actuales
                         handedness_prev = handedness_actual
                 else:
                     puntos_previos = None
-        return [frame for frame, _ in key_frames]
+        return [export for export, _ in key_frames]
     
-    def adjust_threshold(self, puntos_actuales, base_threshold=40.0):
+    def adjust_threshold(self, puntos_actuales, base_threshold):
         for hand_landmarks in puntos_actuales:
             x_coords = [landmark.x for landmark in hand_landmarks.landmark]
             y_coords = [landmark.y for landmark in hand_landmarks.landmark]

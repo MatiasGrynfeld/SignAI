@@ -4,10 +4,10 @@ from forAllTest import init
 init()
 from KeyFrameExtractorClass import KeyFrameExtractor
 
-video = cv2.VideoCapture('C:\\Users\\matia\\OneDrive\\Escritorio\\SignAI-ML\\AI-ML_Development\\recursos\\videoprueba4.mp4')
+video = cv2.VideoCapture('C:\\Users\\48519558\\Documents\\GitHub\\SignAI-ML\\AI-ML_Development\\recursos\\videoprueba4.mp4')
 KFE = KeyFrameExtractor()
 
-keyFrames = KFE.extractKeyFrames(video)
+keyFrames = KFE.extractKeyFrames(True, video, 30.0)
 print(len(keyFrames))
 for frame in keyFrames:
     cv2.imshow('frame', frame)
