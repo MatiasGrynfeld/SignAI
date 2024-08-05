@@ -7,7 +7,7 @@ from KeyFrameExtractorClass import KeyFrameExtractor
 video = cv2.VideoCapture('C:\\Users\\48519558\\Documents\\GitHub\\SignAI-ML\\AI-ML_Development\\recursos\\videoprueba4.mp4')
 KFE = KeyFrameExtractor()
 
-keyFrames = KFE.extractKeyFrames(True, video, 30.0)
+keyFrames = KFE.extractKeyFrames(True, video)
 print(len(keyFrames))
 for frame in keyFrames:
     cv2.imshow('frame', frame)
