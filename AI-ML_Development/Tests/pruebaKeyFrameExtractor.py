@@ -4,7 +4,7 @@ from forAllTest import init
 init()
 from KeyFrameExtractorClass import KeyFrameExtractor
 
-video = cv2.VideoCapture('C:\\Users\\48519558\\Documents\\SignAI-IA.dev\\AI-ML_Development\\recursos\\videoprueba2.mp4')
+video = cv2.VideoCapture('C:\\Users\\matia\\OneDrive\\Escritorio\\SignAI-ML\\AI-ML_Development\\recursos\\videoprueba4.mp4')
 KFE = KeyFrameExtractor()
 
 keyFrames = KFE.extractKeyFrames(video)

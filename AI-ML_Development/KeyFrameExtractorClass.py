@@ -1,5 +1,7 @@
 from HandDetectorClass import HandDetector
+from colorama import Fore, init
 
+init()
 class KeyFrameExtractor:
     def __init__(self) -> None:
         self.hand_detector = HandDetector(is_image=True, num_hands=2, detection_confidence=0.5, tracking_confidence=0.5)
@@ -58,7 +60,8 @@ class KeyFrameExtractor:
                     handedness_prev = results.multi_handedness if results.multi_handedness else []
                     puntos_previos=results.multi_hand_landmarks
                     threshold = self.adjust_threshold(puntos_previos)
-                    print(threshold)
+                    print(Fore.GREEN + f"Threshold: {threshold}")
+                    print(Fore.RESET)
                     key_frames.append((frame, frame_count))
 
             elif frame_count - key_frames[-1][1] > min_frame_interval:
