@@ -61,7 +61,7 @@ class KeyFrameExtractor:
                         frame = self.hand_detector.drawLandmarks(results, frame)
                         key_frames.append((frame, frame_count))
                     else:
-                        key_frames.append((results, frame_count))
+                        key_frames.append((results.multi_hand_landmarks, frame_count))
 
             elif frame_count - key_frames[-1][1] > min_frame_interval:
                 results = self.hand_detector.extractPoints(frame)
@@ -75,7 +75,7 @@ class KeyFrameExtractor:
                             frame = self.hand_detector.drawLandmarks(results, frame)
                             key_frames.append((frame, frame_count))
                         else:
-                            key_frames.append((results, frame_count))
+                            key_frames.append((results.multi_hand_landmarks, frame_count))
                         puntos_previos = puntos_actuales
                         handedness_prev = handedness_actual
                 else:
