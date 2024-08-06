@@ -1,6 +1,6 @@
 import numpy as np
 
-class VectorNormalizer:
+class Point2Vec:
     def __init__(self, numDecimals = 4):
         self.numDecimals = numDecimals
     
@@ -21,3 +21,14 @@ class VectorNormalizer:
             normalizedVector.append(self.normalize(number, min, max))
         
         return normalizedVector
+    
+    def land2Vec(self, landmarks):
+        vector = []
+        for hand in landmarks:
+            handPoints = hand[0].landmark
+            handPointsVector = [[point.x, point.y, point.z] for point in handPoints]
+            handPointsVector[:,0] = self.normalizeVector(handPointsVector[:,0])
+            handPointsVector[:,1] = self.normalizeVector(handPointsVector[:,1])
+            handPointsVector[:,2] = self.normalizeVector(handPointsVector[:,2])
+            vector.append(handPointsVector)
+        return vector
