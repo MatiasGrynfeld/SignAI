@@ -21,33 +21,45 @@ class Point2Vec:
     def land2vec(self, landmarks):
         """Convert MediaPipe landmarks to normalized vector representation"""
         vector = []
-        vector.append(self.hand2vec(landmarks[0]))
-        vector.append(self.hand2vec(landmarks[1]))
-        vector.append(self.face2vec(landmarks[2]))
-        vector.append(self.pose2vec(landmarks[3]))
+        for keyFrame in landmarks:
+            subVector = [
+                self.hand2vec(landmarks[keyFrame][0]),
+                self.hand2vec(landmarks[keyFrame][1]),
+                self.face2vec(landmarks[keyFrame][2]),
+                self.pose2vec(landmarks[keyFrame][3])
+            ]
+            vector.append(subVector)
         return vector
     
     def hand2vec(self, hand):
-        hand_points = hand.landmark
-        hand_points_vector = np.array([[point.x, point.y, point.z] for point in hand_points])
-        hand_points_vector[:, 0] = self.normalize_vector(hand_points_vector[:, 0])
-        hand_points_vector[:, 1] = self.normalize_vector(hand_points_vector[:, 1])
-        hand_points_vector[:, 2] = self.normalize_vector(hand_points_vector[:, 2])
+        if hand:
+            hand_points = hand.landmark
+            hand_points_vector = np.array([[point.x, point.y, point.z] for point in hand_points])
+            hand_points_vector[:, 0] = self.normalize_vector(hand_points_vector[:, 0])
+            hand_points_vector[:, 1] = self.normalize_vector(hand_points_vector[:, 1])
+            hand_points_vector[:, 2] = self.normalize_vector(hand_points_vector[:, 2])
+        else:
+            hand_points_vector = [[-1, -1, -1] * 21]
         return hand_points_vector
     
     def face2vec(self, face):
-        
-        face_points = face.landmark
-        face_points_vector = np.array([[point.x, point.y, point.z] for point in face_points])
-        face_points_vector[:, 0] = self.normalize_vector(face_points_vector[:, 0])
-        face_points_vector[:, 1] = self.normalize_vector(face_points_vector[:, 1])
-        face_points_vector[:, 2] = self.normalize_vector(face_points_vector[:, 2])
+        if face:
+            face_points = face.landmark
+            face_points_vector = np.array([[point.x, point.y, point.z] for point in face_points])
+            face_points_vector[:, 0] = self.normalize_vector(face_points_vector[:, 0])
+            face_points_vector[:, 1] = self.normalize_vector(face_points_vector[:, 1])
+            face_points_vector[:, 2] = self.normalize_vector(face_points_vector[:, 2])
+        else:
+            face_points_vector = [[-1, -1 , -1] * 468]
         return face_points_vector
     
     def pose2vec(self, pose):
-        pose_points = pose.landmark
-        pose_points_vector = np.array([[point.x, point.y, point.z] for point in pose_points])
-        pose_points_vector[:, 0] = self.normalize_vector(pose_points_vector[:, 0])
-        pose_points_vector[:, 1] = self.normalize_vector(pose_points_vector[:, 1])
-        pose_points_vector[:, 2] = self.normalize_vector(pose_points_vector[:, 2])
+        if pose:
+            pose_points = pose.landmark
+            pose_points_vector = np.array([[point.x, point.y, point.z] for point in pose_points])
+            pose_points_vector[:, 0] = self.normalize_vector(pose_points_vector[:, 0])
+            pose_points_vector[:, 1] = self.normalize_vector(pose_points_vector[:, 1])
+            pose_points_vector[:, 2] = self.normalize_vector(pose_points_vector[:, 2])
+        else:
+            pose_points_vector = [[-1, -1, -1] * 33] 
         return pose_points_vector
