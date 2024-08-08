@@ -2,15 +2,6 @@ from PoseDetectorClass import PoseDetector
 class KeyFrameExtractor:
     def __init__(self) -> None:
         self.poseDetector = PoseDetector(is_image=True, detection_confidence=0.5, tracking_confidence=0.5)
-
-    def extractFrames(self, video):
-        ret = 1
-        while ret:
-            ret, frame = video.read()
-            if not ret:
-                break
-            yield frame
-        video.release()
     
     def calcularDiferencia(self, puntos_previos, puntos_actuales, hands_detected_prev, hands_detected_actual):
         if puntos_previos is None:
@@ -25,6 +16,7 @@ class KeyFrameExtractor:
         left_hand_actual = puntos_actuales.left_hand_landmarks
         diff=self.calcularDifManos(right_hand_prev,right_hand_actual,left_hand_prev,left_hand_actual,hands_detected_actual)
         return float(diff)
+    
     def calcularDifManos(self, right_hand_prev, right_hand_actual, left_hand_prev, left_hand_actual, num_hands):
         total_diff = 0.0
         
@@ -51,23 +43,26 @@ class KeyFrameExtractor:
         
         return total_diff
 
-    def extractKeyFrames(self, return_frame, video, min_frame_interval=1):
+    def extractKeyFrames(self, return_frame, draw, video, min_frame_interval=1):
         puntos_previos = []
         manos_detectadas_prev=0
         manos_detectadas_actual=0
         key_frames = []
         frame_count = 0
-
-        for frame in self.extractFrames(video):
+        ret = 1
+        while ret:
+            ret, frame = video.read()
+            if not ret:
+                break
             frame_count += 1
-
             if len(key_frames)==0:
                 results = self.poseDetector.extractPoints(frame)
                 if results.right_hand_landmarks or results.left_hand_landmarks:
                     puntos_previos=results
                     threshold = self.adjust_threshold(puntos_previos)
                     if return_frame:
-                        frame = self.poseDetector.drawLandmarks(puntos_previos, frame)
+                        if draw:
+                            frame = self.poseDetector.drawLandmarks(puntos_previos, frame)
                         key_frames.append((frame, frame_count))
                     else:
                         points = [results.left_hand_landmarks, results.right_hand_landmarks, results.face_landmarks, results.pose_landmarks]
@@ -88,35 +83,50 @@ class KeyFrameExtractor:
                     diff = self.calcularDiferencia(puntos_previos, puntos_actuales, manos_detectadas_prev, manos_detectadas_actual)
 
                     if diff > threshold:
-                        frame = self.poseDetector.drawLandmarks(puntos_actuales, frame)
                         if return_frame:
-                            frame = self.poseDetector.drawLandmarks(puntos_previos, frame)
+                            if draw:
+                                frame = self.poseDetector.drawLandmarks(puntos_actuales, frame)
                             key_frames.append((frame, frame_count))
                         else:
                             points = [results.left_hand_landmarks, results.right_hand_landmarks, results.face_landmarks, results.pose_landmarks]
                             key_frames.append((points, frame_count))
-                        puntos_previos = puntos_actuales
+                            puntos_previos = puntos_actuales
                 else:
                     puntos_previos = None
-                    
+        video.release()
         return [frame for frame, _ in key_frames]
-    
-    def adjust_threshold(self, results, base_threshold=1.35):
-        
-        z_values = []
-        
+
+    def adjust_threshold(self, results, base_threshold=2.0):
+        y_values = []
+        z_values=[]
+        x_values=[]
+        ysum=0
+        xsum=0
+        zsum=0
         if results.right_hand_landmarks:
-            right_hand_z = results.right_hand_landmarks.landmark[0].z
-            z_values.append(right_hand_z)
+            for z in results.right_hand_landmarks.landmark:
+                ysum+= z.y
+                xsum+=z.x
+                zsum+=z.z
+            y_values.append(ysum/len(results.right_hand_landmarks.landmark))
+            x_values.append(xsum/len(results.right_hand_landmarks.landmark))
+            z_values.append(zsum/len(results.right_hand_landmarks.landmark))
             
         if results.left_hand_landmarks:
-            left_hand_z = results.left_hand_landmarks.landmark[0].z
-            z_values.append(left_hand_z)
+            for z in results.left_hand_landmarks.landmark:
+                ysum+= z.y
+                xsum+=z.x
+                zsum+=z.z
+            y_values.append(ysum/len(results.left_hand_landmarks.landmark))
+            x_values.append(xsum/len(results.left_hand_landmarks.landmark))
+            z_values.append(zsum/len(results.left_hand_landmarks.landmark))
         
         if not z_values:
             return base_threshold
         
+        average_y = sum(y_values) / len(y_values)
+        average_x = sum(x_values) / len(x_values)
         average_z = sum(z_values) / len(z_values)
-        adjusted_threshold = base_threshold * average_z
-        
+        adjusted_threshold = base_threshold+ abs(average_z*50 * base_threshold)
+        print(f"{adjusted_threshold}")
         return adjusted_threshold
