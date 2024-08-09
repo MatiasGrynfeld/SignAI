@@ -52,10 +52,10 @@ class Point2Vec:
         return pose_points_vector.flatten()
     
     def CNNMaxtrix(self, landmarks):
-        vector = self.land2vec(landmarks).flatten()
+        vector = self.land2vec(landmarks)
         returnVector = []
         for keyFrame in vector:
             keyFrame = keyFrame.reshape(15,20)
             zeros_5x20 = np.zeros((5, 20))
-            returnVector.append(np.vstack((vector, zeros_5x20)))
+            returnVector.append(np.vstack((keyFrame, zeros_5x20)))
         return returnVector
