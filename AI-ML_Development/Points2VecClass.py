@@ -23,10 +23,10 @@ class Point2Vec:
         vector = []
         for keyFrame in landmarks:
             subVector = [
-                self.hand2vec(landmarks[keyFrame][0]),
-                self.hand2vec(landmarks[keyFrame][1]),
-                self.face2vec(landmarks[keyFrame][2]),
-                self.pose2vec(landmarks[keyFrame][3])
+                self.hand2vec(keyFrame[0]),
+                self.hand2vec(keyFrame[1]),
+                self.face2vec(keyFrame[2]),
+                self.pose2vec(keyFrame[3])
             ]
             vector.append(subVector)
         return vector
