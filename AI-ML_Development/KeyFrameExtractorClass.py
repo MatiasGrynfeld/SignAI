@@ -65,7 +65,7 @@ class KeyFrameExtractor:
                             frame = self.poseDetector.drawLandmarks(puntos_previos, frame)
                         key_frames.append((frame, frame_count))
                     else:
-                        points = [results.left_hand_landmarks, results.right_hand_landmarks, results.face_landmarks, results.pose_landmarks]
+                        points = [results.left_hand_landmarks, results.right_hand_landmarks, results.pose_landmarks]
                         key_frames.append((points, frame_count))
                     if results.right_hand_landmarks and results.left_hand_landmarks:
                         manos_detectadas_prev=2
@@ -88,7 +88,7 @@ class KeyFrameExtractor:
                                 frame = self.poseDetector.drawLandmarks(puntos_actuales, frame)
                             key_frames.append((frame, frame_count))
                         else:
-                            points = [results.left_hand_landmarks, results.right_hand_landmarks, results.face_landmarks, results.pose_landmarks]
+                            points = [results.left_hand_landmarks, results.right_hand_landmarks, results.pose_landmarks]
                             key_frames.append((points, frame_count))
                             puntos_previos = puntos_actuales
                 else:

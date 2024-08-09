@@ -22,10 +22,10 @@ class PoseDetector:
         if results is None:
             return frame
 
-        self.face_style = (
-            self.mp_drawing.DrawingSpec(color=(80, 110, 10), thickness=1, circle_radius=1),
-            self.mp_drawing.DrawingSpec(color=(80, 256, 121), thickness=1, circle_radius=1)
-        )
+        # self.face_style = (
+        #     self.mp_drawing.DrawingSpec(color=(80, 110, 10), thickness=1, circle_radius=1),
+        #     self.mp_drawing.DrawingSpec(color=(80, 256, 121), thickness=1, circle_radius=1)
+        # )
         self.style = (
             self.mp_drawing.DrawingSpec(color=(255, 255, 0), thickness=4, circle_radius=5),
             self.mp_drawing.DrawingSpec(color=(255, 0, 255), thickness=4, circle_radius=5)
@@ -41,10 +41,10 @@ class PoseDetector:
                 frame, results.left_hand_landmarks, self.mp_holistic.HAND_CONNECTIONS, self.style[0], self.style[1]
             )
         
-        if results.face_landmarks:
-            self.mp_drawing.draw_landmarks(
-                frame, results.face_landmarks, self.mp_holistic.FACEMESH_TESSELATION, self.face_style[0], self.face_style[1]
-            )
+        # if results.face_landmarks:
+        #     self.mp_drawing.draw_landmarks(
+        #         frame, results.face_landmarks, self.mp_holistic.FACEMESH_TESSELATION, self.face_style[0], self.face_style[1]
+        #     )
         
         if results.pose_landmarks:
             self.mp_drawing.draw_landmarks(
