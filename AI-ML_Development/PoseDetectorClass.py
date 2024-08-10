@@ -22,7 +22,6 @@ class PoseDetector:
             frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
             resultsHands = hands.process(frame_rgb)
             resultsPose = pose.process(frame_rgb)
-            resultsPose = resultsPose
             results = [resultsHands, resultsPose]
             return results
     

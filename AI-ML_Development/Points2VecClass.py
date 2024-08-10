@@ -22,15 +22,41 @@ class Point2Vec:
         """Convert MediaPipe landmarks to normalized vector representation"""
         vectors = []
         for keyFrame in landmarks:
+            handLandmarks = keyFrame[0]
+            poseLandmarks = keyFrame[1]
             vectors.append(
                 np.concatenate([
-                self.hand2vec(keyFrame[0]),
-                self.hand2vec(keyFrame[1]),
-                self.pose2vec(keyFrame[2])
+                self.hands2vec(handLandmarks),
+                self.pose2vec(poseLandmarks)
                 ])
             )
         return vectors
 
+    def hands2vec(self, hand):
+        if hand:
+            if len(hand.multi_hand_landmarks) == 1:
+                hand_points_vector = np.concatenate([
+                    self.hand2vec(hand.multi_hand_landmarks[0]),
+                    self.hand2vec(None)
+                ])
+            elif len(hand.multi_hand_landmarks) == 2:
+                hand_points_vector = np.concatenate([
+                    self.hand2vec(hand.multi_hand_landmarks[0]),
+                    self.hand2vec(hand.multi_hand_landmarks[1])
+                ])
+            else:
+                hand_points_vector = np.concatenate([
+                    self.hand2vec(None),
+                    self.hand2vec(None)
+                ])
+        else:
+            hand_points_vector = np.concatenate([
+                self.hand2vec(None),
+                self.hand2vec(None)
+            ])
+        return hand_points_vector
+
+    
     def hand2vec(self, hand):
         if hand:
             hand_points_vector = np.array([[point.x, point.y, point.z, 1] for point in hand.landmark])
@@ -43,7 +69,7 @@ class Point2Vec:
 
     def pose2vec(self, pose):
         if pose:
-            pose_points_vector = np.array([[point.x, point.y, point.z, point.visibility] for point in pose.landmark])
+            pose_points_vector = np.array([[point.x, point.y, point.z, point.visibility] for point in pose.pose_landmarks.landmark])
             pose_points_vector[:, 0] = self.normalize_vector(pose_points_vector[:, 0])
             pose_points_vector[:, 1] = self.normalize_vector(pose_points_vector[:, 1])
             pose_points_vector[:, 2] = self.normalize_vector(pose_points_vector[:, 2])
