@@ -1,7 +1,7 @@
 from PoseDetectorClass import PoseDetector
 class KeyFrameExtractor:
     def __init__(self) -> None:
-        self.poseDetector = PoseDetector(is_image=True, detection_confidence=0.5, tracking_confidence=0.5)
+        self.poseDetector = PoseDetector(is_image=True, num_hands=2, detection_confidence=0.5, tracking_confidence=0.5)
     
     def calcularDiferencia(self, puntos_previos, puntos_actuales, hands_detected_prev, hands_detected_actual):
         if puntos_previos is None:
