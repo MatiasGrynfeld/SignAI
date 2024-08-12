@@ -2,28 +2,20 @@ import torch
 import torch.nn as nn
 from transformers import BertModel, BertTokenizer
 
-# import torch
-# import torch.nn as nn
-# from transformers import BertModel, BertTokenizer
+def transformInputLayer(input_vectors):
+    class ProjectionLayer(nn.Module):
+        def __init__(self, input_dim, output_dim):
+            super(ProjectionLayer, self).__init__()
+            self.projection = nn.Linear(input_dim, output_dim)
 
-# # Example input: a batch of vectors of size (batch_size, 300)
-# batch_size = 2
-# input_vectors = torch.randn(batch_size, 300)  # Random embeddings for example purposes
+        def forward(self, x):
+            return self.projection(x)
 
-# # Define the projection layer to match BERT's embedding size (768 for BERT-base)
-# class ProjectionLayer(nn.Module):
-#     def __init__(self, input_dim, output_dim):
-#         super(ProjectionLayer, self).__init__()
-#         self.projection = nn.Linear(input_dim, output_dim)
+    projection_layer = ProjectionLayer(input_dim=300, output_dim=768)
+    projected_vectors = projection_layer(input_vectors)
 
-#     def forward(self, x):
-#         return self.projection(x)
+    return projected_vectors
 
-# # Initialize the projection layer
-# projection_layer = ProjectionLayer(input_dim=300, output_dim=768)
-
-# # Project the input vectors to the BERT embedding dimension
-# projected_vectors = projection_layer(input_vectors)
 
 # # Load pre-trained BERT model
 # model = BertModel.from_pretrained('bert-base-uncased')
