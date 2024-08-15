@@ -16,7 +16,10 @@ class Point2Vec:
         min_val = np.min(vector)
         max_val = np.max(vector)
         normalized_vector = (vector - min_val) / (max_val - min_val)
-        return self.truncate(normalized_vector)
+        factor = 10 ** self.num_decimals
+        truncated_vector = np.round(normalized_vector * factor) / factor
+        return truncated_vector
+
 
     def land2vec(self, landmarks):
         """Convert MediaPipe landmarks to normalized vector representation"""
