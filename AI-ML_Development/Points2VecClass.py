@@ -1,5 +1,5 @@
 import numpy as np
-
+np.set_printoptions(suppress=True, precision=4)
 class Point2Vec:
     def __init__(self, num_decimals=4):
         self.num_decimals = num_decimals
