@@ -4,14 +4,12 @@ class VideoFormater:
     def __init__(self) -> None:
         pass
     
-    def formatVideo(self, points, translation, numVideo):
-        dataFrame = pd.DataFrame({'points': points, 'translation': translation})
-        dataFrame['id'] = numVideo
-        return dataFrame
+    def formatVideo(self, dicts):
+        df = pd.DataFrame.from_dict(dicts) 
+        return df
     
-    def concatAndExportVideos(self, videos, file_name):
-        concatDf = pd.concat(videos, ignore_index=True)
-        concatDf.to_csv(file_name, index=False)
+    def concatAndExportVideos(self, df, file_name):
+        df.to_csv(file_name, index=False)
 
     def csvToDfsVid(self, path):
         df = pd.read_csv(path)

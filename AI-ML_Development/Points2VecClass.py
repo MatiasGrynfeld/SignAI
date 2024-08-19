@@ -31,7 +31,7 @@ class Point2Vec:
                 np.concatenate([
                 self.hands2vec(handLandmarks),
                 self.pose2vec(poseLandmarks)
-                ])
+                ]).tolist()
             )
         return vectors
 
