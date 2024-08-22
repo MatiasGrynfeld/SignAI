@@ -8,4 +8,4 @@ The main objective of Sign AI is to provide an accessible and efficient tool for
 
 ### Note
 
-This repository only contains the code to the AI / Machine Learning section. To see the WEB repository go to [WEB REPOSITORY](https://github.com/BenjaPicca/SignAI-WEB).
+This repository only contains the code to the AI / Machine Learning section. To see the Back-End repository go to [BACK-END REPOSITORY](https://github.com/BenjaPicca/SignAI-WEB). Also you can see the Front-End section in this repository[FRONT-END REPOSITORY](https://github.com/tomasgrinstein/SignAI_Front-End).
