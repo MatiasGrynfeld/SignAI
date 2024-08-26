@@ -1,2 +1,20 @@
-Entrar con cuenta de adm
-Correr desde la terminal de linux, 
+Tocar tecla Windows: WSL 2
+
+Esto te abre una term en Ubuntu.
+Desde Ubuntu, correr:
+
+sudo docker run --gpus all --env NVIDIA_DISABLE_REQUIRE=1 --net=host -it --rm tensorflow/tensorflow:latest-gpu-py3
+
+Esto te abre una imagen de Docker con Python y Tensorflow seteado para GPU con Cuda
+Podes buscar otra imagen que ande con GPU y Cuda por ejemplo para Pytorch
+Por ejemplo hay otra imagen (tensorflow/tensorflow:latest-gpu-py3-jupyter) que tiene Jupyter, pero tiene una version mas vieja de Jupyter
+
+Mi recomendación, corre con tensorflow/tensorflow:latest-gpu-py3 y le instalás Jupyter Notebook con pip Install
+
+Despues corres Jupyter notebook desde la imágen de Docker
+
+Te debería printear una URL de la pinta: http://127.0.0.1:8888/?token=ALGUNTOKENLARGO
+Podes o bien abrir esa URL en Chrome e interactuar desde la GUI de Jupyter Web
+O desde Visual Studio Code crear un nuevo notebook (ctrl+shift+p -> New Jupyter Notebook) y al Seleccionar el Kernel indiquen, "Servidor de Jupyter Existente" y pegan la URL
+
+Recordá el Notebook ese vive dentro de la imagen de Docker, todo lo que el notebook exporte (archivos .h5, .csv, imagenes o otros) van a quedar dentro de la imagen de Docker. Cuando se cierra la imagen los archivos no necesariamente perduran. Podés desde el notebook que crean usando comandos de linea (Usando un ! en una celda), clonar algun repo con permisos para pushear.
