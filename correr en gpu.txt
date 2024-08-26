@@ -1,0 +1,2 @@
+Entrar con cuenta de adm
+Correr desde la terminal de linux, 
