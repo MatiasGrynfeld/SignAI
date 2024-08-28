@@ -79,7 +79,7 @@ class Point2Vec:
 
     def pose2vec(self, pose):
         if pose:
-            pose_points_vector = np.array([[point.x, point.y, point.z, point.visibility] for point in pose.pose_landmarks.landmark])
+            pose_points_vector = np.array([[point.x, point.y, point.z, point.visibility] for point in pose.landmark])
             pose_points_vector[:, 0] = self.normalize_vector(pose_points_vector[:, 0])
             pose_points_vector[:, 1] = self.normalize_vector(pose_points_vector[:, 1])
             pose_points_vector[:, 2] = self.normalize_vector(pose_points_vector[:, 2])
@@ -89,18 +89,21 @@ class Point2Vec:
     
     def face2vec(self, face):
         if face:
-            face_points_vector = np.array([point.x, point.y, point.z, 1] for point in face.landmark)
+            face_points_vector = np.array([[point.x, point.y, point.z, 1] for point in face.landmark])
             face_points_vector[:, 0] = self.normalize_vector(face_points_vector[:, 0])
             face_points_vector[:, 1] = self.normalize_vector(face_points_vector[:, 1])
             face_points_vector[:, 2] = self.normalize_vector(face_points_vector[:, 2])
         else:
             face_points_vector = np.full((468, 4), [-1, -1, -1, 0])
+        return face_points_vector.flatten()
     
-    def CNNMaxtrix(self, landmarks):
+    def CNNMatrix(self, landmarks):
         vector = self.land2vec(landmarks)
         returnVector = []
         for keyFrame in vector:
-            keyFrame = keyFrame.reshape(15,20)
-            zeros_5x20 = np.zeros((5, 20))
+            zero_row = [0] * 36
+            keyFrame = np.concatenate([keyFrame, zero_row])
+            keyFrame = keyFrame.reshape(46,48)
+            zeros_5x20 = np.zeros((2, 48))
             returnVector.append(np.vstack((keyFrame, zeros_5x20)))
         return returnVector

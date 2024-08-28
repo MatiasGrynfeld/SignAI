@@ -57,19 +57,13 @@ if __name__ == '__main__':
     image = cv2.imread("C:\\Users\\48519558\\Desktop\\SignAI-ML\\AI-ML_Development\\Resources\\a.jpg")
     pd = PoseDetector(is_image=True, num_hands=2, detection_confidence=0.75, tracking_confidence=0.75)
     r = pd.extractPoints(frame=image)
-    new_image = pd.drawLandmarks(results=r, frame=image)
-    cv2.imshow("Image", new_image)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
-    r_left_hand = r.left_hand_landmarks
-    r_right_hand = r.right_hand_landmarks
-    r_pose = r.pose_landmarks
-    r_face = r.face_landmarks
-    with open("output.txt", "w") as file:
-        file.write(str(r_left_hand) + "\n")
-        file.write("enter\n")
-        file.write(str(r_right_hand) + "\n")
-        file.write("enter\n")
-        file.write(str(r_pose) + "\n")
-        file.write("enter\n")
-        file.write(str(r_face) + "\n")
+    #new_image = pd.drawLandmarks(results=r, frame=image)
+    #cv2.imshow("Image", new_image)
+    #cv2.waitKey(0)
+    #cv2.destroyAllWindows()
+    from Points2VecClass import Point2Vec
+    p2v = Point2Vec(4)
+    #ra = p2v.land2vec([r])
+    ra = p2v.CNNMatrix([r])
+    import numpy as np
+    print(np.array(ra).shape)
