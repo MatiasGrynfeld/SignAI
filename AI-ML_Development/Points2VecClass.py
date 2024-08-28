@@ -25,27 +25,34 @@ class Point2Vec:
         """Convert MediaPipe landmarks to normalized vector representation"""
         vectors = []
         for keyFrame in landmarks:
-            handLandmarks = keyFrame[0]
-            poseLandmarks = keyFrame[1]
+            handLandmarks = [keyFrame.left_hand_landmarks, keyFrame.right_hand_landmarks]
+            poseLandmarks = keyFrame.pose_landmarks
+            faceLandmarks = keyFrame.face_landmarks
             vectors.append(
                 np.concatenate([
                 self.hands2vec(handLandmarks),
-                self.pose2vec(poseLandmarks)
+                self.pose2vec(poseLandmarks),
+                self.face2vec(faceLandmarks)
                 ]).tolist()
             )
         return vectors
 
     def hands2vec(self, hand):
         if hand:
-            if len(hand.multi_hand_landmarks) == 1:
+            if hand[0] and not hand[1]:
                 hand_points_vector = np.concatenate([
-                    self.hand2vec(hand.multi_hand_landmarks[0]),
+                    self.hand2vec(hand[0]),
                     self.hand2vec(None)
                 ])
-            elif len(hand.multi_hand_landmarks) == 2:
+            elif not hand[0] and hand[1]:
                 hand_points_vector = np.concatenate([
-                    self.hand2vec(hand.multi_hand_landmarks[0]),
-                    self.hand2vec(hand.multi_hand_landmarks[1])
+                    self.hand2vec(None),
+                    self.hand2vec(hand[1])
+                ])
+            elif hand[0] and hand[1]:
+                hand_points_vector = np.concatenate([
+                    self.hand2vec(hand[0]),
+                    self.hand2vec(hand[1])
                 ])
             else:
                 hand_points_vector = np.concatenate([
@@ -79,6 +86,15 @@ class Point2Vec:
         else:
             pose_points_vector = np.full((33, 4), [-1, -1, -1, 0])
         return pose_points_vector.flatten()
+    
+    def face2vec(self, face):
+        if face:
+            face_points_vector = np.array([point.x, point.y, point.z, 1] for point in face.landmark)
+            face_points_vector[:, 0] = self.normalize_vector(face_points_vector[:, 0])
+            face_points_vector[:, 1] = self.normalize_vector(face_points_vector[:, 1])
+            face_points_vector[:, 2] = self.normalize_vector(face_points_vector[:, 2])
+        else:
+            face_points_vector = np.full((468, 4), [-1, -1, -1, 0])
     
     def CNNMaxtrix(self, landmarks):
         vector = self.land2vec(landmarks)
