@@ -112,23 +112,20 @@ class KeyFrameExtractor:
     
     def adjust_threshold(self, puntos_actuales, num_hands, min_threshold=-0.35, max_threshold=0.35):
         hands_size=[]
-        # z_values=[]
-        # for handlandmarks in puntos_actuales.multi_hand_world_landmarks:
-        #     z_values.extend(landmark.z for landmark in handlandmarks.landmark)
-        # z_prom=sum(z_values)/len(z_values)
-        # threshold= base_threshold+base_threshold/z_prom
         if puntos_actuales.right_hand_landmarks:
             x_coords=[landmark.x for landmark in puntos_actuales.right_hand_landmarks.landmark]
             y_coords=[landmark.y for landmark in puntos_actuales.right_hand_landmarks.landmark]
             hand_width = max(x_coords) - min(x_coords)
             hand_height = max(y_coords) - min(y_coords)
             hands_size.append(hand_width * hand_height)
+
         if puntos_actuales.left_hand_landmarks:
             x_coords=[landmark.x for landmark in puntos_actuales.left_hand_landmarks.landmark]
             y_coords=[landmark.y for landmark in puntos_actuales.left_hand_landmarks.landmark]
             hand_width = max(x_coords) - min(x_coords)
             hand_height = max(y_coords) - min(y_coords)
             hands_size.append(hand_width * hand_height)
+            
         if hands_size:
             hands_media_size=sum(hands_size)/num_hands
         mid_size = 0  # Puedes ajustar este valor
