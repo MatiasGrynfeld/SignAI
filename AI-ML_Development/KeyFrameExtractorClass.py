@@ -111,23 +111,23 @@ class KeyFrameExtractor:
         return [frame for frame, _ in key_frames]
     
     def adjust_threshold(self, puntos_actuales, num_hands, min_threshold=-0.35, max_threshold=0.35):
-        hands_size=[]
+        hands_size=0.0
         if puntos_actuales.right_hand_landmarks:
             x_coords=[landmark.x for landmark in puntos_actuales.right_hand_landmarks.landmark]
             y_coords=[landmark.y for landmark in puntos_actuales.right_hand_landmarks.landmark]
             hand_width = max(x_coords) - min(x_coords)
             hand_height = max(y_coords) - min(y_coords)
-            hands_size.append(hand_width * hand_height)
+            hands_size+=(hand_width * hand_height)
 
         if puntos_actuales.left_hand_landmarks:
             x_coords=[landmark.x for landmark in puntos_actuales.left_hand_landmarks.landmark]
             y_coords=[landmark.y for landmark in puntos_actuales.left_hand_landmarks.landmark]
             hand_width = max(x_coords) - min(x_coords)
             hand_height = max(y_coords) - min(y_coords)
-            hands_size.append(hand_width * hand_height)
+            hands_size+=(hand_width * hand_height)
             
         if hands_size:
-            hands_media_size=sum(hands_size)/num_hands
+            hands_media_size=hands_size/num_hands
         mid_size = 0  # Puedes ajustar este valor
         k = 17  # Ajusta para cambiar la sensibilidad
         threshold = min_threshold + (max_threshold - min_threshold) / (1 + np.exp(-k * (hands_media_size - mid_size)))+0.03
