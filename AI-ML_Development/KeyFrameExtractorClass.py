@@ -23,11 +23,15 @@ class KeyFrameExtractor:
             diff+=self.calcularDifManos(left_hand_prev,left_hand_actual)
 
         elif hands_detected_actual==1:
-            if left_hand_prev and left_hand_actual:
-                total_diff = self.calcularDifManos(left_hand_prev, left_hand_actual)
+            if puntos_previos.left_hand_landmarks and puntos_actuales.left_hand_landmarks:
+                left_hand_prev=puntos_previos.left_hand_landmarks
+                left_hand_actual = puntos_actuales.left_hand_landmarks
+                diff += self.calcularDifManos(left_hand_prev, left_hand_actual)
 
-            elif right_hand_prev and right_hand_actual:
-                total_diff = self.calcularDifManos(right_hand_prev, right_hand_actual)
+            elif puntos_previos.right_hand_landmarks and puntos_actuales.right_hand_landmarks:
+                right_hand_prev = puntos_previos.right_hand_landmarks
+                right_hand_actual = puntos_actuales.right_hand_landmarks
+                diff += self.calcularDifManos(right_hand_prev, right_hand_actual)
 
             else:
                 return 1.0
@@ -101,6 +105,7 @@ class KeyFrameExtractor:
                                 frame = self.poseDetector.drawLandmarks(results, frame)
                             key_frames.append((frame, frame_count))
                         else:
+                            
                             key_frames.append((results, frame_count))
                         puntos_previos = puntos_actuales
                         num_hands_prev=num_hands
