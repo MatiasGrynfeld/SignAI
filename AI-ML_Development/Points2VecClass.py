@@ -98,9 +98,9 @@ class Point2Vec:
         return face_points_vector.flatten()
     
     def CNNMatrix(self, landmarks):
-        vector = self.land2vec(landmarks)
+        #vector = self.land2vec(landmarks)
         returnVector = []
-        for keyFrame in vector:
+        for keyFrame in landmarks:
             zero_row = [0] * 36
             keyFrame = np.concatenate([keyFrame, zero_row])
             keyFrame = keyFrame.reshape(46,48)
