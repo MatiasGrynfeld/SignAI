@@ -15,7 +15,8 @@ class PoseDetector:
         with self.mp_holistic.Holistic(
             static_image_mode=self.is_image,
             min_detection_confidence=self.detection_confidence,
-            model_complexity=2
+            model_complexity=2,
+            smooth_landmarks=True
         ) as holistic:
             frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
             results = holistic.process(frame_rgb)

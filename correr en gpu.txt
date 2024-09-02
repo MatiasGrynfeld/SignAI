@@ -18,3 +18,5 @@ Podes o bien abrir esa URL en Chrome e interactuar desde la GUI de Jupyter Web
 O desde Visual Studio Code crear un nuevo notebook (ctrl+shift+p -> New Jupyter Notebook) y al Seleccionar el Kernel indiquen, "Servidor de Jupyter Existente" y pegan la URL
 
 Recordá el Notebook ese vive dentro de la imagen de Docker, todo lo que el notebook exporte (archivos .h5, .csv, imagenes o otros) van a quedar dentro de la imagen de Docker. Cuando se cierra la imagen los archivos no necesariamente perduran. Podés desde el notebook que crean usando comandos de linea (Usando un ! en una celda), clonar algun repo con permisos para pushear.
+
+C:\Program Files\WindowsApps\MicrosoftCorporationII.WindowsSubsystemForLinux_2.2.4.0_x64__8wekyb3d8bbwe
