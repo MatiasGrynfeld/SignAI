@@ -16,8 +16,8 @@ class BodyTranslate(BaseModel):
 async def translate(body: BodyTranslate):
     url = body.video_url
     async with httpx.AsyncClient() as client:
-        response = await client.get(url)
-        data = response.json()
+        video = await client.get(url)
+        data = video.json()
 
     return {"video_url": body.video_url, "content": data}
 
