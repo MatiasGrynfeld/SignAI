@@ -1,26 +1,19 @@
 from fastapi import FastAPI
-from pydantic import BaseModel
-import httpx
+from Controllers.root import api_working
+from Controllers.translate import post_translate
+from Body.translate import BodyTranslate
 
 app = FastAPI()
 port = 8000
 
 @app.get("/")
 async def root():
-    return "API Funcionando"
-
-class BodyTranslate(BaseModel):
-    video_url: str
+    api_working()
 
 @app.post("/translate")
 async def translate(body: BodyTranslate):
-    url = body.video_url
-    async with httpx.AsyncClient() as client:
-        video = await client.get(url)
-        data = video.json()
-
+    data = post_translate(body)
     return {"video_url": body.video_url, "content": data}
-
 
 if __name__ == "__main__":
     import uvicorn
