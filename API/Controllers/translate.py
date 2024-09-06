@@ -1,4 +1,5 @@
 import httpx
+import time
 
 async def post_translate(body):
     url = body.video_url

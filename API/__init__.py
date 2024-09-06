@@ -8,13 +8,11 @@ port = 8000
 
 @app.get("/")
 async def root():
-    api_working()
+    return api_working()
 
 @app.post("/translate")
 async def translate(body: BodyTranslate):
-    data = post_translate(body)
+    data = await post_translate(body)
     return {"video_url": body.video_url, "content": data}
 
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, port=port)
+#uvicorn __init__:app --reload --> to run the server
