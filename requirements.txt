@@ -7,4 +7,5 @@ pandas==2.2.2
 scikit-learn
 transformers
 fastapi
-#pip install "fastapi[standard]"
+cloudinary
+#pip install "fastapi[standard]" uvicorn
