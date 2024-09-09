@@ -13,6 +13,6 @@ async def root():
 @app.post("/translate")
 async def translate(body: BodyTranslate):
     data = await post_translate(body)
-    return {"video_url": body.video_url, "content": data}
+    return {"id": body.id, "Status": data}
 
 #uvicorn __init__:app --reload --> to run the server
