@@ -5,11 +5,11 @@ class VideoFormater:
         pass
     
     def formatVideo(self, dicts):
-        df = pd.DataFrame.from_dict(dicts) 
+        df = pd.DataFrame([dicts])
         return df
-    
-    def concatAndExportVideos(self, df, file_name):
-        df.to_csv(file_name, index=False)
+
+    def concatAndExportVideos(self, df, path):
+        df.to_csv(path, index=False)
 
     def csvToDfsVid(self, path):
         df = pd.read_csv(path)
