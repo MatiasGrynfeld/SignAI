@@ -1,6 +1,6 @@
 # Sign AI
 
-Sign AI is a project aimed at facilitating communication for people who use sign language. Through a web page, users can translate what they want to say into written text and even autocomplete with the help of Gemini or OpenAI APIs. The sign detection is done through artificial intelligence that processes in real time what the camera captures, using a Large Language Model (LLM).
+Sign AI is a project aimed at facilitating communication for people who use sign language. Through a web page, users can translate what they want to say into written text and even autocomplete with the help of Gemini or OpenAI APIs. The sign detection is done through artificial intelligence that processes videos uploaded by the user.
 
 ## Objective
 
