@@ -12,7 +12,7 @@ WORKDIR /app
 
 COPY requirements.txt /app/
 RUN pip install --no-cache-dir -r requirements.txt
-RUN pip install --no-cache-dir jupyter "fastapi[standard]" uvicorn
+RUN pip install --no-cache-dir jupyter "fastapi[standard]"
 RUN pip install --no-cache-dir torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu124
 
 RUN apt-get update && \

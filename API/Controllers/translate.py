@@ -9,10 +9,12 @@ for part in base_path:
         project_directory += "\\"
 sys.path.append(project_directory + "Services")
 print(project_directory + "Services")
-from Services.clouldinary import get_video_by_id
+from Services.clouldinary import get_url_by_id
 
 async def post_translate(body):
     id = body.id
+    if not id:
+        return {"error": "No id provided"}
     base_path = os.getcwd().split("\\")
     project_directory = ""
     for part in base_path:
@@ -24,8 +26,7 @@ async def post_translate(body):
         if os.path.exists(download_path):
             translation = {"message": "Video already downloaded"}
         else:
-            url = get_video_by_id(id)
-            #url = "https://campus.ort.edu.ar/static/archivos/videos/mp4/1301449.mp4"
+            url = get_url_by_id(id)
             async with httpx.AsyncClient() as client:
                 response = await client.get(url)
                 response.raise_for_status()
@@ -33,6 +34,6 @@ async def post_translate(body):
                     f.write(response.content)
             
             translation = {"message": "Downloaded video"}
-    except:
-        return {"error": "Cloudinary not working"}
+    except Exception as e:
+        return {"error": e.__str__()}
     return translation

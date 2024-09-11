@@ -1,5 +1,8 @@
 import cloudinary
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 cloud_name = os.getenv('CLOUD_NAME')
 api_key = os.getenv('API_KEY')

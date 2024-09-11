@@ -8,4 +8,6 @@ scikit-learn
 transformers
 fastapi
 cloudinary
-#pip install "fastapi[standard]" uvicorn
+uvicorn
+python-dotenv
+#pip install "fastapi[standard]"
