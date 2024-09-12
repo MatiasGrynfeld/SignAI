@@ -21,3 +21,10 @@ RUN apt-get update && \
 
 EXPOSE 8888
 CMD ["jupyter", "notebook", "--ip=0.0.0.0", "--no-browser", "--allow-root"]
+
+# docker-compose build
+# docker run --gpus all -it --rm -p 8888:8888 -v D:\SignAI-ML\Docker\Mati:/app signai
+# docker run --gpus all -it --rm -p 8888:8888 -v C:\Users\48519558\Desktop\SignAI-ML\Docker\Mati:/app signai
+
+# docker image ls
+# docker image rm nombreimage
