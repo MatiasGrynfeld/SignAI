@@ -1,0 +1,14 @@
+version: '3.8'
+services:
+  app:
+    image: signai
+    build:
+      context: .
+      args:
+        CLOUD_NAME: ${CLOUD_NAME}
+        API_KEY: ${API_KEY}
+        API_SECRET: ${API_SECRET}
+    environment:
+      - CLOUD_NAME=${CLOUD_NAME}
+      - API_KEY=${API_KEY}
+      - API_SECRET=${API_SECRET}
