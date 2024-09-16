@@ -20,7 +20,7 @@ import cloudinary.uploader
 
 # Upload an image
 upload_result = cloudinary.uploader.upload(
-    "D:\\SignAI-ML\\AI-Module\\Resources\\Videos\\_2FBDaOPYig-5-rgb_front.mp4", 
+    "C:\\Users\\48519558\\Desktop\\SignAI-ML\\AI-Module\\Resources\\Videos\\_2FBDaOPYig-5-rgb_front.mp4", 
     public_id="video_prueba",
     resource_type = "video"
 )

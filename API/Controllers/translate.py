@@ -1,14 +1,18 @@
 import httpx
 import os
 import sys
+
 base_path = os.getcwd().split("\\")
+
 project_directory = ""
+
 for part in base_path:
     if part != "Controllers":
         project_directory += part
         project_directory += "\\"
+
 sys.path.append(project_directory + "Services")
-print(project_directory + "Services")
+
 from Services.clouldinary import get_url_by_id
 
 async def post_translate(body):
