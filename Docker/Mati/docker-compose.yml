@@ -1,10 +1,9 @@
-version: '3.8'
 services:
   app:
     image: signai
     build:
       context: ../..
-      dockerfile: ./Dockerfile
+      dockerfile: .\Docker\Mati\Dockerfile
       args:
         CLOUD_NAME: ${CLOUD_NAME}
         API_KEY: ${API_KEY}
