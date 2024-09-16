@@ -4,7 +4,7 @@ services:
     image: signai
     build:
       context: ../..
-      dockerfile: ./Dockerfile
+      dockerfile: C:\Users\48113164\Documents\GitHub\SignAI-ML\Docker\Setto\Dockerfile
       args:
         CLOUD_NAME: ${CLOUD_NAME}
         API_KEY: ${API_KEY}

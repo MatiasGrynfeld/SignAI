@@ -9,8 +9,10 @@ ENV API_KEY=$API_KEY
 ENV API_SECRET=$API_SECRET
 
 WORKDIR /app
-
-RUN pip install --no-cache-dir pandas numpy nltk opencv-python mediapipe fastapi cloudinary uvicorn python-dotenv "fastapi[standard]"
+RUN pip install --upgrade pip
+COPY ./Docker/Setto/requirements.txt /app/
+RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir jupyter "fastapi[standard]"
 
 RUN apt-get update && \
     apt-get install -y libgl1-mesa-glx \
