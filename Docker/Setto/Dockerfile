@@ -1,4 +1,5 @@
 FROM tensorflow/tensorflow:latest-gpu-py3
+FROM python:3.11.10
 
 ARG CLOUD_NAME
 ARG API_KEY
@@ -27,3 +28,7 @@ RUN pip install --no-cache-dir jupyter "fastapi[standard]"
 
 EXPOSE 8888
 CMD ["jupyter", "notebook", "--ip=0.0.0.0", "--no-browser", "--allow-root"]
+
+#docker run --gpus all -it --rm -p 8888:8888 -v C:\Users\48113164\Documents\GitHub\SignAI-ML\Docker\Setto:/app signai
+# docker image ls
+# docker image rm nombreimage
