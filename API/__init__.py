@@ -15,4 +15,10 @@ async def translate(body: BodyTranslate):
     translation = await post_translate(body)
     return translation
 
+class info:
+    info: dict
+@app.post("/prueba")
+async def prueba(body: info):
+    return {"received": body.info}
+
 #uvicorn __init__:app --reload --> to run the server

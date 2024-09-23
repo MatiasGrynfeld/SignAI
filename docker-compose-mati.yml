@@ -4,12 +4,3 @@ services:
     build:
       context: .
       dockerfile: Dockerfile-mati
-      args:
-        CLOUD_NAME: ${CLOUD_NAME}
-        API_KEY: ${API_KEY}
-        API_SECRET: ${API_SECRET}
-    environment:
-      - CLOUD_NAME=${CLOUD_NAME}
-      - API_KEY=${API_KEY}
-      - API_SECRET=${API_SECRET}
-
