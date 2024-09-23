@@ -1,24 +1,11 @@
 import httpx
 import os
-import sys
-
-base_path = os.getcwd().split("\\")
-
-project_directory = ""
-
-for part in base_path:
-    if part != "Controllers":
-        project_directory += part
-        project_directory += "\\"
-
-sys.path.append(project_directory + "Services")
-
-from Services.clouldinary import get_url_by_id
 
 async def post_translate(body):
+    url = body.url
     id = body.id
-    if not id:
-        return {"error": "No id provided"}
+    if not url or not id:
+        return {"error": "Faltan datos"}
     base_path = os.getcwd().split("\\")
     project_directory = ""
     for part in base_path:
@@ -30,7 +17,6 @@ async def post_translate(body):
         if os.path.exists(download_path):
             translation = {"message": "Video already downloaded"}
         else:
-            url = get_url_by_id(id)
             async with httpx.AsyncClient() as client:
                 response = await client.get(url)
                 response.raise_for_status()
