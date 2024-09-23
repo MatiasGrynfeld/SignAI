@@ -2,8 +2,8 @@ services:
   app:
     image: signai
     build:
-      context: ../..
-      dockerfile: .\Docker\Mati\Dockerfile
+      context: .
+      dockerfile: Dockerfile-mati
       args:
         CLOUD_NAME: ${CLOUD_NAME}
         API_KEY: ${API_KEY}
@@ -12,5 +12,4 @@ services:
       - CLOUD_NAME=${CLOUD_NAME}
       - API_KEY=${API_KEY}
       - API_SECRET=${API_SECRET}
-    volumes:
-      - ../..:/app
+
