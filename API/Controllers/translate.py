@@ -24,6 +24,15 @@ async def post_translate(body):
                     f.write(response.content)
             
             translation = {"message": "Downloaded video"}
+            async with httpx.AsyncClient() as client:
+                response = await client.post(
+                    "url",
+                    json={
+                        "id": id,
+                        "translation": translation
+                    }
+                )
+                response.raise_for_status()
     except Exception as e:
         return {"error": e.__str__()}
     return translation

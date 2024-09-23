@@ -1,13 +1,5 @@
 FROM pytorch/pytorch:2.4.1-cuda12.4-cudnn9-runtime
 
-ARG CLOUD_NAME
-ARG API_KEY
-ARG API_SECRET
-
-ENV CLOUD_NAME=$CLOUD_NAME
-ENV API_KEY=$API_KEY
-ENV API_SECRET=$API_SECRET
-
 WORKDIR /app
 
 COPY ./requirements-mati.txt /app/
