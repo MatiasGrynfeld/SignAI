@@ -10,4 +10,5 @@ fastapi
 cloudinary
 uvicorn
 python-dotenv
+nltk
 #pip install "fastapi[standard]"
