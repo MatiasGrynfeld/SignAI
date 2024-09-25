@@ -45,4 +45,4 @@ EXPOSE 8888
 # Comando para iniciar Jupyter Notebook
 CMD ["jupyter", "notebook", "--ip=0.0.0.0", "--no-browser", "--allow-root"]
 # docker-compose -f docker-compose-setto.yml build
-# docker run --gpus all --env NVIDIA_DISABLE_REQUIRE=1 -it --rm -p 8888:8888 -v C:\Users\48113164\Documents\Github\SignAI-ML:/app signai
+# docker run --gpus all --memory=30g --env NVIDIA_DISABLE_REQUIRE=1 -it --rm -p 8888:8888 -v C:\Users\48113164\Documents\Github\SignAI-ML:/app signai
