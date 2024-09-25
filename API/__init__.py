@@ -15,7 +15,8 @@ async def translate(body: BodyTranslate):
     translation = await post_translate(body)
     return translation
 
-class info:
+from pydantic import BaseModel
+class info(BaseModel):
     info: dict
 @app.post("/prueba")
 async def prueba(body: info):
