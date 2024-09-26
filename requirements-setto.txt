@@ -1,12 +1,14 @@
-#mediapipe==0.10.14
+mediapipe==0.10.14
 opencv-python
 #pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
 #pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu124
 numpy
 pandas
 #tensorflow
-#scikit-learn
+scikit-learn
 #transformers
+keras_tuner
+tqdm
 fastapi
 cloudinary
 uvicorn
