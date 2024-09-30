@@ -22,7 +22,7 @@ async def manage_video(url: str, id: str) -> dict:
                     f.write(response.content)
             translation = {"message": "video descargado correctamente"}
 
-        # Simulación de procesamiento
+        # Simulación de procesamiento (esto también es asíncrono)
         await asyncio.sleep(5)  # Simulando procesamiento
 
         async with httpx.AsyncClient() as client:
@@ -35,9 +35,11 @@ async def manage_video(url: str, id: str) -> dict:
         
         with open("a.txt", "w") as f:
             f.write(response.text)
+        
         return {"message": "Procesamiento y POST completados"}
     
     except Exception as e:
+        print(str(e))
         return {"error": str(e)}
 
 async def post_translate(body: dict) -> dict:
