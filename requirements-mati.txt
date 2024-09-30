@@ -11,4 +11,5 @@ cloudinary
 uvicorn
 python-dotenv
 nltk
+httpx
 #pip install "fastapi[standard]"
