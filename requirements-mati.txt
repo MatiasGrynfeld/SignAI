@@ -12,4 +12,5 @@ uvicorn
 python-dotenv
 nltk
 httpx
+wandb
 #pip install "fastapi[standard]"
