@@ -17,9 +17,10 @@ async def translate(body: BodyTranslate):
 
 from pydantic import BaseModel
 class info(BaseModel):
-    info: dict
+    translation: str
 @app.post("/prueba")
 async def prueba(body: info):
-    return {"received": body.info}
+    print(body)
+    return {"received": body.translation}
 
 #uvicorn __init__:app --reload --> to run the server
