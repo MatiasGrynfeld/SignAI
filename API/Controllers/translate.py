@@ -1,16 +1,21 @@
 import httpx
 import os
 import asyncio
+from pathlib import Path
+import sys
+
+project_directory = Path(os.getcwd()).parent.parent
+sys.path.append(str(project_directory / "AI-Module"))
+
+from __init__ import main as translate
 
 async def manage_video(path:str) -> dict:
     try:
-        # Simulación de procesamiento (esto también es asíncrono)
-        await asyncio.sleep(5)  # Simulando procesamiento
-
+        translation = translate(path)
         async with httpx.AsyncClient() as client:
             response = await client.post(
                 "http://127.0.0.1:8000/prueba", #Cambiar a la ruta del back
-                json={"translation": "Hola"},
+                json={"translation": translation},
                 headers={"Content-Type": "application/json"}
             )
             response.raise_for_status()
@@ -25,12 +30,8 @@ async def post_translate(body: dict) -> dict:
     
     if not url or not id:
         return {"error": "Faltan datos"}
-    base_path = os.getcwd().split("\\")
-    project_directory = ""
-    for part in base_path:
-        if part != "api":
-            project_directory += part + "\\"
-    download_path = project_directory + "AI-Module\\Resources\\Downloads\\" + id + ".mp4"
+    
+    download_path = project_directory / "AI-Module" / "Resources" / "Downloads" / f"{id}.mp4"
     try:
         already_downloaded = False
         if not os.path.exists(download_path):
