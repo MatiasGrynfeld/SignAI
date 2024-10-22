@@ -4,10 +4,11 @@ import asyncio
 from pathlib import Path
 import sys
 
-project_directory = Path(os.getcwd()).parent.parent
-sys.path.append(str(project_directory / "AI-Module"))
+project_directory = Path(os.getcwd()).parent / "AI-Module"
+sys.path.append(str(project_directory))
+sys.path.append(str(project_directory / "Modules"))
 
-from __init__ import main as translate
+from main import main as translate
 
 async def manage_video(path:str) -> dict:
     try:
@@ -31,7 +32,7 @@ async def post_translate(body: dict) -> dict:
     if not url or not id:
         return {"error": "Faltan datos"}
     
-    download_path = project_directory / "AI-Module" / "Resources" / "Downloads" / f"{id}.mp4"
+    download_path = project_directory / "Resources" / "Downloads" / f"{id}.mp4"
     try:
         already_downloaded = False
         if not os.path.exists(download_path):

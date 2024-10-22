@@ -7,6 +7,7 @@ from pathlib import Path
 
 
 def main(path:str) -> str:
+    return "Hello World"
     path = Path(path)
     kfe = KeyFrameExtractor()
     normalizer = Point2Vec(4)
@@ -28,7 +29,6 @@ def main(path:str) -> str:
         
         normalized_video_features = normalizer.land2vec(video_features)
         
-        return "Hello World"
     except Exception as e:
         return "Error translating"
 
