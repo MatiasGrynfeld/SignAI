@@ -3,3 +3,4 @@ train
 val
 tokenizer.json
 .env
+*.pyc
