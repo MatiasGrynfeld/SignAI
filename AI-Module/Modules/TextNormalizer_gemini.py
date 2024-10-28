@@ -1,7 +1,5 @@
 import google.generativeai as genai
-from dotenv import load_dotenv
-import os
-load_dotenv()
+
 class TextNormalizer:
     def __init__(self, api_key):
         # Configurar la API Key
@@ -21,7 +19,7 @@ class TextNormalizer:
                     {
                     "role":"user",
                     "parts":[
-                        "You are going to recieve a text that may not be gramatically correct, and it also may be robotic, normalize it so it has the same meaning"
+                        'You are going to recieve a text that may not be gramatically correct, and it also may be robotic, normalize it so it has the same meaning and humanize it'
                     ]
                     }, 
                 ]
@@ -32,9 +30,3 @@ class TextNormalizer:
             parts=content.parts
             response=parts[0].text
             return response
-
-api_key=os.getenv("API_KEY")
-print(api_key)
-normalizer=TextNormalizer(api_key)
-result=normalizer.normalizar_texto("I'm football player good")
-print(result)
