@@ -1,16 +1,24 @@
 from Modules.KeyFrameExtractorClass import KeyFrameExtractor
 from Modules.Points2VecClass import Point2Vec
+from Modules.TextNormalizer_gemini import TextNormalizer
+from cnn_lstmClass import Model
 import cv2
 import os
 import subprocess
 from pathlib import Path
-
+from dotenv import load_dotenv
+load_dotenv()
 
 def main(path:str) -> str:
     return "Hello World"
     path = Path(path)
     kfe = KeyFrameExtractor()
     normalizer = Point2Vec(4)
+    api_key=os.getenv("API_KEY")
+    text_normalizer=TextNormalizer(api_key)
+    tokenizer_path=''
+    model_path=''
+    model= Model(model_path,tokenizer_path)
     
     try:
         #Use ffmpeg to filter video frames
@@ -28,6 +36,12 @@ def main(path:str) -> str:
         #Normalize video features
         
         normalized_video_features = normalizer.land2vec(video_features)
+
+        #Modelo
+        output= model.predict(normalized_video_features)
+
+        #Normalize text
+        text=text_normalizer.normalizar_texto(output)
         
     except Exception as e:
         return "Error translating"
