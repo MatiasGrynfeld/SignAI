@@ -9,7 +9,8 @@ sys.path.append(str(project_directory))
 sys.path.append(str(project_directory / "Modules"))
 
 from main import main as translate
-
+#poner recibir id en manage_video y ponerlo en la request al back
+#hacer request si falla la traduccion
 async def manage_video(path:str) -> dict:
     try:
         translation = translate(path)
