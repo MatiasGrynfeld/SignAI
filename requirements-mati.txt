@@ -13,4 +13,5 @@ python-dotenv
 nltk
 httpx
 wandb
+google.generativeai
 #pip install "fastapi[standard]"

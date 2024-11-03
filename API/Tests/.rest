@@ -14,5 +14,6 @@ POST http://127.0.0.1:8000/prueba HTTP/1.1
 Content-Type: application/json
 
 {
-    "translation": "video_prueba"
+    "id": 123,
+    "translation": "Hola hola"
 }

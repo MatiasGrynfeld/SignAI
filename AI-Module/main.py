@@ -1,7 +1,7 @@
 from Modules.KeyFrameExtractorClass import KeyFrameExtractor
 from Modules.Points2VecClass import Point2Vec
 from Modules.TextNormalizer_gemini import TextNormalizer
-from cnn_lstmClass import Model
+#from Modules.cnn_lstmCLass import Model
 import cv2
 import os
 import subprocess
