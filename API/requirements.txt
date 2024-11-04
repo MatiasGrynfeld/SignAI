@@ -14,4 +14,5 @@ nltk
 httpx
 wandb
 google.generativeai
+colorama
 #pip install "fastapi[standard]"
