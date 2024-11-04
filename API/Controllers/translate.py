@@ -15,7 +15,10 @@ async def manage_video(id:int, path:str):
     if id=="video_prueba":
         id=-100
     try:
+        print("entre", id, path)
+        print(type(translate))
         translation = translate(path)
+        print("pre")
         async with httpx.AsyncClient() as client:
             response = await client.post(
                 f"https://sign-ai-web.vercel.app/{id}/texto", #Cambiar a la ruta del back
@@ -23,6 +26,7 @@ async def manage_video(id:int, path:str):
                 headers={"Content-Type": "application/json"}
             )
             response.raise_for_status()
+        print("mande")
         return
     except Exception as e:
         print(str(e))
@@ -45,9 +49,6 @@ async def post_translate(body: dict) -> dict:
     download_path = project_directory / "Resources" / "Downloads" / f"{id}.mp4"
     try:
         already_downloaded = False
-        print(download_path)
-        print(download)
-        print(os.path.exists(download_path))
         if not os.path.exists(download_path):
             os.makedirs(str(download))
             async with httpx.AsyncClient() as client:
