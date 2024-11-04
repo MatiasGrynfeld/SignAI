@@ -9,7 +9,7 @@ sys.path.append(str(project_directory))
 sys.path.append(str(project_directory / "Modules"))
 print(sys.path)
 
-import main as translate
+from main import main as translate
 
 async def manage_video(id:int, path:str):
     if id=="video_prueba":
