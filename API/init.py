@@ -24,4 +24,4 @@ async def prueba(body: info):
     print(body)
     return {"received": body}
 
-#uvicorn __init__:app --reload --> to run the server
+#uvicorn init:app --reload --> to run the server
