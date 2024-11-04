@@ -1,0 +1,19 @@
+GET https://signai-ml.onrender.com/ HTTP/1.1
+
+### Prueba translate
+POST https://signai-ml.onrender.com/translate HTTP/1.1
+Content-Type: application/json
+
+{
+    "id": "video_prueba",
+    "url": "https://res.cloudinary.com/ddo7yelan/video/upload/v1726005031/video_prueba.mp4"
+}
+
+### Prueba prueba
+POST https://signai-ml.onrender.com/prueba HTTP/1.1
+Content-Type: application/json
+
+{
+    "id": 123,
+    "translation": "Hola hola"
+}

@@ -41,11 +41,15 @@ async def post_translate(body: dict) -> dict:
     
     if not url or not id:
         return {"error": "Faltan datos"}
-    
+    download = project_directory / "Resources" / "Downloads"
     download_path = project_directory / "Resources" / "Downloads" / f"{id}.mp4"
     try:
         already_downloaded = False
+        print(download_path)
+        print(download)
+        print(os.path.exists(download_path))
         if not os.path.exists(download_path):
+            os.makedirs(str(download))
             async with httpx.AsyncClient() as client:
                 response = await client.get(url)
                 response.raise_for_status()
