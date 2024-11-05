@@ -20,7 +20,7 @@ async def manage_video(id:int, path:str):
         async with httpx.AsyncClient() as client:
             response = await client.post(
                 f"https://sign-ai-web.vercel.app/{id}/texto", #Cambiar a la ruta del back
-                json={"translation": translation},
+                json={"id": id, "translation": translation},
                 headers={"Content-Type": "application/json"}
             )
             response.raise_for_status()
@@ -32,7 +32,7 @@ async def manage_video(id:int, path:str):
         async with httpx.AsyncClient() as client:
             response = await client.post(
                 f"https://sign-ai-web.vercel.app/{id}/texto", #Cambiar a la ruta del back
-                json={"translation": msg_error},
+                json={"id": id,"translation": msg_error},
                 headers={"Content-Type": "application/json"}
             )
             response.raise_for_status()

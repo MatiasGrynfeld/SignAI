@@ -5,7 +5,7 @@ POST https://signai-ml.onrender.com/translate HTTP/1.1
 Content-Type: application/json
 
 {
-    "id": "video_prueba",
+    "id": 85,
     "url": "https://res.cloudinary.com/ddo7yelan/video/upload/v1726005031/video_prueba.mp4"
 }
 
