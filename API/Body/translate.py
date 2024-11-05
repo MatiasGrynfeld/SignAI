@@ -8,7 +8,7 @@ class BodyTranslate(BaseModel):
 BodyTranslate Example:
 
 {
-    "id": "1",
+    "id": 1,
     "url": "https://www.youtube.com/watch?v=9bZkp7q19f0"
 }
 """

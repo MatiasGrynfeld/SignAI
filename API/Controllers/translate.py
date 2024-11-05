@@ -12,8 +12,6 @@ print(sys.path)
 from main import main as translate
 
 async def manage_video(id:int, path:str):
-    if id=="video_prueba":
-        id=-100
     try:
         print("entre", id, path)
         print(type(translate))
@@ -22,7 +20,7 @@ async def manage_video(id:int, path:str):
         async with httpx.AsyncClient() as client:
             response = await client.post(
                 f"https://sign-ai-web.vercel.app/{id}/texto", #Cambiar a la ruta del back
-                json={"id":id,"translation": translation},
+                json={"translation": translation},
                 headers={"Content-Type": "application/json"}
             )
             response.raise_for_status()
@@ -34,7 +32,7 @@ async def manage_video(id:int, path:str):
         async with httpx.AsyncClient() as client:
             response = await client.post(
                 f"https://sign-ai-web.vercel.app/{id}/texto", #Cambiar a la ruta del back
-                json={"id":id,"translation": msg_error},
+                json={"translation": msg_error},
                 headers={"Content-Type": "application/json"}
             )
             response.raise_for_status()
@@ -50,6 +48,7 @@ async def post_translate(body: dict) -> dict:
     download_path = project_directory / "Resources" / "Downloads" / f"{id}.mp4"
     try:
         already_downloaded = False
+        print("pre-download")
         if not os.path.exists(download_path):
             os.makedirs(str(download))
             async with httpx.AsyncClient() as client:
@@ -59,7 +58,9 @@ async def post_translate(body: dict) -> dict:
                     f.write(response.content)
         else:
             already_downloaded = True
+        print("after download")
         asyncio.create_task(manage_video(id, download_path))
+        print("task created")
         return {"message": "received", "body": body, "already_downloaded": already_downloaded}
     except Exception as e:
         print(str(e))
