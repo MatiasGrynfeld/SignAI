@@ -29,11 +29,12 @@ async def manage_video(id:int, path:str):
         print("mande")
         return
     except Exception as e:
+        msg_error = "Hubo un error al traducir el video. Por favor volver a intentarlo."
         print(str(e))
         async with httpx.AsyncClient() as client:
             response = await client.post(
                 f"https://sign-ai-web.vercel.app/{id}/texto", #Cambiar a la ruta del back
-                json={"id":id,"translation": "Error"},
+                json={"id":id,"translation": msg_error},
                 headers={"Content-Type": "application/json"}
             )
             response.raise_for_status()
