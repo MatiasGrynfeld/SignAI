@@ -50,7 +50,7 @@ async def post_translate(body: dict) -> dict:
         already_downloaded = False
         print("pre-download")
         if not os.path.exists(download_path):
-            os.makedirs(str(download))
+            os.makedirs(str(download), exist_ok=True)
             async with httpx.AsyncClient() as client:
                 response = await client.get(url)
                 response.raise_for_status()
