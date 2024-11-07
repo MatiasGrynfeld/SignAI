@@ -14,7 +14,6 @@ from main import main as translate
 async def manage_video(id:int, path:str):
     try:
         print("entre", id, path)
-        print(type(translate))
         translation = translate(path)
         print("pre")
         async with httpx.AsyncClient() as client:
@@ -45,7 +44,7 @@ async def post_translate(body: dict) -> dict:
     if not url or not id:
         return {"error": "Faltan datos"}
     download = project_directory / "Resources" / "Downloads"
-    download_path = project_directory / "Resources" / "Downloads" / f"{id}.mp4"
+    download_path = project_directory / "Resources" / "Downloads" / f"{id},{url}.mp4"
     try:
         already_downloaded = False
         print("pre-download")
