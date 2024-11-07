@@ -15,7 +15,7 @@ async def manage_video(id:int, path:str):
     try:
         print("entre", id, path)
         translation = translate(path)
-        print("pre")
+        print("pre", translation)
         async with httpx.AsyncClient() as client:
             response = await client.put(
                 f"https://sign-ai-web.vercel.app/{id}/texto", #Cambiar a la ruta del back
