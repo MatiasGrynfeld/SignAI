@@ -44,7 +44,7 @@ async def post_translate(body: dict) -> dict:
     if not url or not id:
         return {"error": "Faltan datos"}
     download = project_directory / "Resources" / "Downloads"
-    download_path = project_directory / "Resources" / "Downloads" / f"{id},{url}.mp4"
+    download_path = project_directory / "Resources" / "Downloads" / f"{id},{url.rstrip(".mp4")}.mp4"
     try:
         already_downloaded = False
         print("pre-download")
