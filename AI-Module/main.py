@@ -10,7 +10,6 @@ from dotenv import load_dotenv
 load_dotenv()
 
 def main(path:str) -> str:
-    return "Hello World"
     path = Path(path)
     kfe = KeyFrameExtractor()
     normalizer = Point2Vec(4)
@@ -18,12 +17,13 @@ def main(path:str) -> str:
     text_normalizer=TextNormalizer(api_key)
     tokenizer_path=''
     model_path=''
-    model= Model(model_path,tokenizer_path)
+    #model= Model(model_path,tokenizer_path)
     
     try:
         #Use ffmpeg to filter video frames
         
         path = ffmpeg_video(path)
+        return "Hello World"
         
         #Create video object
         
@@ -43,8 +43,8 @@ def main(path:str) -> str:
         #Normalize text
         text=text_normalizer.normalizar_texto(output)
         
-    except Exception as e:
-        return "Error translating"
+    except:
+        raise Exception("An error occurred")
 
 def ffmpeg_video(path: str) -> Path:
     if path.suffix == ".mp4":

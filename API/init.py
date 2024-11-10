@@ -32,7 +32,7 @@ class info(BaseModel):
     id: int
     translation: str
 
-@app.post("/prueba")
+@app.put("/prueba")
 async def prueba(body: info):
     print(body)
     return {"received": body}
