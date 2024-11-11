@@ -1,14 +1,13 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from Controllers.root import api_working
-from Controllers.translate import post_translate
-from Body.translate import BodyTranslate
+from API.Controllers.root import api_working
+from API.Controllers.translate import post_translate
+from API.Body.translate import BodyTranslate
 from pydantic import BaseModel
 
 app = FastAPI()
 port = 8000
 
-# Configuración de CORS
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],

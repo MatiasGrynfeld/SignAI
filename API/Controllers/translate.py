@@ -5,7 +5,10 @@ from pathlib import Path
 import sys
 import time
 
-project_directory = Path(os.getcwd()).parent / "AI-Module"
+current_file_path = Path(__file__).resolve()
+project_directory = current_file_path.parent.parent / "AI-Module"
+print(current_file_path)
+print(project_directory)
 sys.path.append(str(project_directory))
 sys.path.append(str(project_directory / "Modules"))
 
@@ -18,7 +21,7 @@ async def manage_video(id:int, path:str):
         print("pre", translation)
         async with httpx.AsyncClient() as client:
             response = await client.put(
-                f"https://signai-ml.onrender.com/prueba", #Cambiar a la ruta del back https://sign-ai-web.vercel.app/{id}/texto
+                f"http://127.0.0.1:8000/prueba", #Cambiar a la ruta del back https://sign-ai-web.vercel.app/{id}/texto https://signai-ml.onrender.com/prueba
                 json={"id": id, "translation": translation},
                 headers={"Content-Type": "application/json"}
             )
@@ -30,7 +33,7 @@ async def manage_video(id:int, path:str):
         print(str(e))
         async with httpx.AsyncClient() as client:
             response = await client.put(
-                f"https://signai-ml.onrender.com/prueba", #Cambiar a la ruta del back https://sign-ai-web.vercel.app/{id}/texto
+                f"http://127.0.0.1:8000/prueba", #Cambiar a la ruta del back https://sign-ai-web.vercel.app/{id}/texto
                 json={"id": id,"translation": msg_error},
                 headers={"Content-Type": "application/json"}
             )
