@@ -23,7 +23,7 @@ def main(path:str) -> str:
         #Use ffmpeg to filter video frames
         
         path = ffmpeg_video(path)
-        return "Hello World"
+        # return "Hello World"
         
         #Create video object
         
@@ -42,6 +42,7 @@ def main(path:str) -> str:
 
         #Normalize text
         text=text_normalizer.normalizar_texto(output)
+        return text
         
     except:
         raise Exception("An error occurred")

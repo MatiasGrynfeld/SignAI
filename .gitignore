@@ -1,6 +1,5 @@
 test
 train
 val
-tokenizer.json
-.env
 *.pyc
+.env

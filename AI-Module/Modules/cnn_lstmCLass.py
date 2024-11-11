@@ -4,32 +4,39 @@ from tensorflow.keras.preprocessing.text import tokenizer_from_json
 class Model:
     def __init__(self, model_path, tokenizer_path):
         self.model=tf.keras.models.load_model(model_path)
+        self.decoder=self.model.get_layer('decoder')
+        self.encoder=self.model.get_layer('encoder')
+        self.cnn=self.model.get_layer('cnn')
         with open(tokenizer_path) as json_file:
             tokenizer_json = json_file.read()
         # Reconstruir el tokenizer desde el archivo JSON
         self.tokenizer = tokenizer_from_json(tokenizer_json)
-    def decode(self, predictions, greedy):
-    predicted_classes = tf.argmax(predictions, axis=-1)
-    mask = tf.not_equal(predicted_classes, 0)
-    seq_lengths = tf.reduce_sum(tf.cast(mask, tf.int32), axis=-1)
-    predictions = tf.cast(predictions, dtype=tf.float32)
-    predictions=tf.transpose(predictions,[1,0,2])
-
-    if greedy:
-        decoded, _ = tf.nn.ctc_greedy_decoder(inputs=predictions, sequence_length=seq_lengths)
-
-    else:
-        decoded, _ = tf.nn.ctc_beam_search_decoder(inputs=predictions, sequence_length=seq_lengths)
-    decoded_dense = tf.sparse.to_dense(decoded[0], default_value=-1).numpy()
-
-    # Extraer las secuencias decodificadas eliminando los -1 (valores de relleno)
-    decoded_sequences = []
-    for seq in decoded_dense:
-        decoded_sequences.append([val for val in seq if val != -1])
-
-    return decoded_sequences
+        self.start_token_id=self.tokenizer.word_index['<start>']
+        self.end_token_id=self.tokenizer.word_index['<end>']
+    
     def predict(self, points):
-        predictions=self.model.predict(points)
-        decoded_sequences=self.decode(predictions, greedy=False)
-        prediction=self.tokenizer.sequence_to_text(decoded_sequences)
-        return prediction
+        max_len=400
+        decoder_input = tf.constant([[self.start_token_id]])
+        output_sequence = []
+        points=tf.expand_dims(tf.expand_dims(points,axis=0), axis=-1)
+
+
+        cnn_output=self.cnn(points, training=False)
+        print(cnn_output.shape)
+
+
+        encoder_outputs, encoder_states = self.encoder(cnn_output, training=False)
+        states= encoder_states
+
+
+        for _ in range(max_len):
+            decoder_outputs, state_h, state_c =self.decoder([decoder_input, encoder_outputs, states], training=False)
+            decoder_outputs=tf.cast(tf.argmax(decoder_outputs, axis=-1), dtype=tf.int32)
+            output_sequence.append(int(decoder_outputs))
+            states=[state_h, state_c]
+            decoder_input = tf.expand_dims(tf.expand_dims(decoder_outputs[0,-1],axis=0),axis=0)
+            if int(decoder_outputs[0,-1]) == self.end_token_id or int(decoder_outputs[0,-1])==0:
+                break
+
+        translation = self.tokenizer.sequences_to_texts([output_sequence])
+        return translation
