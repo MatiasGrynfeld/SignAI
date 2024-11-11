@@ -14,18 +14,6 @@ ENV CLOUD_NAME=$CLOUD_NAME
 ENV API_KEY=$API_KEY
 ENV API_SECRET=$API_SECRET
 
-# RUN apt-key del 7fa2af80 \
-#     && rm /etc/apt/sources.list.d/nvidia-ml.list /etc/apt/sources.list.d/cuda.list
-
-# #Instalar python 3.11
-# RUN apt-get update && apt-get install -y \
-# software-properties-common && \
-# add-apt-repository ppa:deadsnakes/ppa && \
-# apt-get update && \
-# apt-get install -y python3.11 python3.11-dev python3.11-distutils && \
-# update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.11 1 && \
-# curl -sS https://bootstrap.pypa.io/get-pip.py | python3.11
-
 # Instalar las dependencias del sistema
 RUN apt-get update && \
     apt-get install -y libgl1-mesa-glx libglib2.0-0 libgtk-3-0 && \
@@ -34,10 +22,8 @@ RUN apt-get update && \
 # Copiar requirements.txt al contenedor
 COPY ./requirements-setto.txt /app/
 
-# Actualizar pip y las dependencias
-RUN pip3 install --upgrade pip
-RUN pip3 install --no-cache-dir -r requirements-setto.txt
-RUN pip3 install --no-cache-dir jupyter "fastapi[standard]"
+RUN pip install --no-cache-dir -r requirements-setto.txt
+RUN pip install --no-cache-dir jupyter "fastapi[standard]"
 
 # Exponer el puerto para Jupyter
 EXPOSE 8888
@@ -46,3 +32,4 @@ EXPOSE 8888
 CMD ["jupyter", "notebook", "--ip=0.0.0.0", "--no-browser", "--allow-root"]
 # docker-compose -f docker-compose-setto.yml build
 # docker run --gpus all --memory=30g --env NVIDIA_DISABLE_REQUIRE=1 -e TF_GPU_ALLOCATOR=cuda_malloc_async -it --rm -p 8888:8888 -v C:\Users\48113164\Documents\Github\SignAI-ML:/app signai
+#docker run --gpus all --memory=30g --env NVIDIA_DISABLE_REQUIRE=1 -e TF_GPU_ALLOCATOR=cuda_malloc_async -it --rm -p 8888:8888 -v C:\Users\48113164\Documents\Github\SignAI-ML:/app tensorflow/tensorflow:latest-gpu jupyter notebook --notebook-dir=/app/AI-Module/CNN-LSTM --ip=0.0.0.0 --no-browser --allow-root

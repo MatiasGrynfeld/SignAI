@@ -1,7 +1,7 @@
 from Modules.KeyFrameExtractorClass import KeyFrameExtractor
 from Modules.Points2VecClass import Point2Vec
 from Modules.TextNormalizer_gemini import TextNormalizer
-#from Modules.cnn_lstmCLass import Model
+from Modules.cnn_lstmCLass import Model
 import cv2
 import os
 import subprocess
@@ -15,15 +15,15 @@ def main(path:str) -> str:
     normalizer = Point2Vec(4)
     api_key=os.getenv("API_KEY")
     text_normalizer=TextNormalizer(api_key)
-    tokenizer_path=''
-    model_path=''
-    #model= Model(model_path,tokenizer_path)
+    tokenizer_path='./tokenizer.json'
+    model_path='./model_seq2seq_with_attention_and_word2vec_2.h5'
+    model= Model(model_path,tokenizer_path)
     
     try:
         #Use ffmpeg to filter video frames
         
         path = ffmpeg_video(path)
-        return "Hello World"
+        # return "Hello World"
         
         #Create video object
         
@@ -42,6 +42,7 @@ def main(path:str) -> str:
 
         #Normalize text
         text=text_normalizer.normalizar_texto(output)
+        return text
         
     except:
         raise Exception("An error occurred")
