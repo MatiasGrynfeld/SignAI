@@ -4,9 +4,10 @@ import asyncio
 from pathlib import Path
 import sys
 import time
+from fastapi import HTTPException
 
 current_file_path = Path(__file__).resolve()
-project_directory = current_file_path.parent.parent / "AI-Module"
+project_directory = current_file_path.parent.parent.parent / "AI-Module"
 print(current_file_path)
 print(project_directory)
 sys.path.append(str(project_directory))
@@ -21,7 +22,7 @@ async def manage_video(id:int, path:str):
         print("pre", translation)
         async with httpx.AsyncClient() as client:
             response = await client.put(
-                f"http://127.0.0.1:8000/prueba", #Cambiar a la ruta del back https://sign-ai-web.vercel.app/{id}/texto https://signai-ml.onrender.com/prueba
+                f"http://localhost:3000/{id}/texto", #Cambiar a la ruta del back https://sign-ai-web.vercel.app/{id}/texto https://signai-ml.onrender.com/prueba
                 json={"id": id, "translation": translation},
                 headers={"Content-Type": "application/json"}
             )
@@ -33,7 +34,7 @@ async def manage_video(id:int, path:str):
         print(str(e))
         async with httpx.AsyncClient() as client:
             response = await client.put(
-                f"http://127.0.0.1:8000/prueba", #Cambiar a la ruta del back https://sign-ai-web.vercel.app/{id}/texto
+                f"http://localhost:3000/{id}/texto", #Cambiar a la ruta del back https://sign-ai-web.vercel.app/{id}/texto
                 json={"id": id,"translation": msg_error},
                 headers={"Content-Type": "application/json"}
             )
@@ -47,12 +48,13 @@ async def post_translate(body: dict) -> dict:
     if not url or not id:
         return {"error": "Faltan datos"}
     download = project_directory / "Resources" / "Downloads"
-    download_path = project_directory / "Resources" / "Downloads" / f"{id},{time.ctime()}.mp4"
+    download_path = project_directory / "Resources" / "Downloads" / f"{id},{time.strftime('%Y-%m-%d_%H-%M-%S')}.mp4"
     try:
         already_downloaded = False
         print("pre-download")
         if not os.path.exists(download_path):
             os.makedirs(str(download), exist_ok=True)
+            print("downloading")
             async with httpx.AsyncClient() as client:
                 response = await client.get(url)
                 response.raise_for_status()
@@ -65,5 +67,4 @@ async def post_translate(body: dict) -> dict:
         print("task created")
         return {"message": "received", "body": body, "already_downloaded": already_downloaded}
     except Exception as e:
-        print(str(e))
-        return {"error": str(e)}
+        raise HTTPException(status_code=500, detail=str(e))
