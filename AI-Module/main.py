@@ -28,7 +28,7 @@ def main(path:str) -> str:
         print("not main")
         tokenizer_path='./tokenizer.json'
         model_path='./model_seq2seq_with_attention_and_word2vec_2.h5'
-    #model= Model(model_path,tokenizer_path)
+    model= Model(model_path,tokenizer_path)
     
     try:
         #Use ffmpeg to filter video frames
@@ -46,13 +46,13 @@ def main(path:str) -> str:
         #Normalize video features
         
         normalized_video_features = normalizer.land2vec(video_features)
-        return "Hello World"
+        #return "Hello World"
 
         #Modelo
         output= model.predict(normalized_video_features)
-
+        text=output[0]
         #Normalize text
-        text=text_normalizer.normalizar_texto(output)
+        #text=text_normalizer.normalizar_texto(output)
         return text
         
     except:

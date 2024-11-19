@@ -11,7 +11,7 @@ class Model:
         self.start_token_id=self.tokenizer.word_index['<start>']
         self.end_token_id=self.tokenizer.word_index['<end>']
     
-    def create_tokenizer(tokenizer_path):
+    def create_tokenizer(self, tokenizer_path):
         with open(tokenizer_path) as json_file:
             tokenizer_json = json_file.read()
         # Reconstruir el tokenizer desde el archivo JSON
