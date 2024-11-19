@@ -7,13 +7,32 @@ class Model:
         self.decoder=self.model.get_layer('decoder')
         self.encoder=self.model.get_layer('encoder')
         self.cnn=self.model.get_layer('cnn')
-        with open(tokenizer_path) as json_file:
-            tokenizer_json = json_file.read()
-        # Reconstruir el tokenizer desde el archivo JSON
-        self.tokenizer = tokenizer_from_json(tokenizer_json)
+        self.tokenizer=self.create_tokenizer(tokenizer_path)
         self.start_token_id=self.tokenizer.word_index['<start>']
         self.end_token_id=self.tokenizer.word_index['<end>']
     
+    def create_tokenizer(tokenizer_path):
+        with open(tokenizer_path) as json_file:
+            tokenizer_json = json_file.read()
+        # Reconstruir el tokenizer desde el archivo JSON
+        tokenizer = tokenizer_from_json(tokenizer_json)
+        with open(tokenizer_path) as json_file:
+            tokenizer_json = json_file.read()
+        # Reconstruir el tokenizer desde el archivo JSON
+        tokenizer = tokenizer_from_json(tokenizer_json)
+        start_token='<start>'
+        end_token='<end>'
+        padding_token='<pad>'
+        tokenizer.word_index[start_token]=len(tokenizer.word_index)+1
+        tokenizer.word_index[end_token]=len(tokenizer.word_index)+1
+        tokenizer.word_index[padding_token]=0
+        tokenizer.word_index[start_token], tokenizer.word_index[end_token], tokenizer.word_index[padding_token]
+        tokenizer.index_word[0]=padding_token
+        tokenizer.index_word[tokenizer.word_index[start_token]]=start_token
+        tokenizer.index_word[tokenizer.word_index[end_token]]=end_token
+        tokenizer.index_word[0], tokenizer.index_word[tokenizer.word_index[start_token]], tokenizer.index_word[tokenizer.word_index[end_token]]
+        return tokenizer
+
     def predict(self, points):
         max_len=400
         decoder_input = tf.constant([[self.start_token_id]])
