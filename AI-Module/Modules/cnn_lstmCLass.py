@@ -34,7 +34,7 @@ class Model:
         return tokenizer
 
     def predict(self, points):
-        max_len=400
+        max_len=35
         decoder_input = tf.constant([[self.start_token_id]])
         output_sequence = []
         points=tf.expand_dims(tf.expand_dims(points,axis=0), axis=-1)
