@@ -1,3 +1,0 @@
-[build]
-    command = "docker build -t my-app . && docker run --rm -v $(pwd)/public:/app/public my-app"
-    publish = "public"

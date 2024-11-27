@@ -34,25 +34,27 @@ def main(path:str) -> str:
         #Use ffmpeg to filter video frames
         
         path = ffmpeg_video(path)
-        
+        print("paso ffmpeg")
         #Create video object
         
         video = cv2.VideoCapture(str(path))
-        
+        print("paso cv2")
         #Extract video features
         
         video_features = kfe.extractKeyFrames(return_frame=False, draw=False, video=video)
-        
+        print("paso keyframe")
         #Normalize video features
         
         normalized_video_features = normalizer.land2vec(video_features)
         #return "Hello World"
-
+        print("paso normalizer")
         #Modelo
         output= model.predict(normalized_video_features)
+        print("paso modelo")
         text=output[0]
         #Normalize text
         #text=text_normalizer.normalizar_texto(output)
+        print("devolviendo")
         return text
         
     except:
