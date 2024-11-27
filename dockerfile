@@ -12,3 +12,6 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 CMD ["uvicorn", "init:app", "--host", "0.0.0.0", "--port", "8000"]
+
+# docker build .
+# docker run -p 8000:8000 <image_id>
