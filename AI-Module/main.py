@@ -22,12 +22,12 @@ def main(path:str) -> str:
     text_normalizer=TextNormalizer(api_key)
     if __name__ == '__main__':
         print("main")
-        tokenizer_path='../tokenizer.json'
-        model_path='../model_seq2seq_with_attention_and_word2vec_2.h5'
+        tokenizer_path='../tokenizer_entero.json'
+        model_path='../translator_transformer.keras'
     else:
         print("not main")
-        tokenizer_path='./tokenizer.json'
-        model_path='./model_seq2seq_with_attention_and_word2vec_2.h5'
+        tokenizer_path='./tokenizer_entero.json'
+        model_path='./translator_transformer.keras'
     model= Model(model_path,tokenizer_path)
     
     try:
