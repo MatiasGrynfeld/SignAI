@@ -5,15 +5,11 @@ opencv-python
 numpy==1.26.4
 pandas==2.2.2
 tensorflow==2.15.0
-scikit-learn
-transformers
 fastapi
-cloudinary
 uvicorn
 python-dotenv
 nltk
 httpx
-wandb
 google.generativeai
 colorama
 #pip install "fastapi[standard]"
