@@ -1,6 +1,0 @@
-services:
-  app:
-    image: signai
-    build:
-      context: .
-      dockerfile: Dockerfile-mati
